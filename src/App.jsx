@@ -1,9 +1,19 @@
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const App = () => {
+  const API_BASE_URL = "https://api.themoviedb.org/3";
+
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+
+  const API_OPTIONS
+
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect( () => {
+
+  }, [])
 
   return (
     <main className="relative">
