@@ -1,6 +1,8 @@
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import { useEffect, useState } from "react";
+import Spinner from "./components/Spinner";
+import MovieCard from "./components/MovieCard";
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
 
@@ -16,10 +18,14 @@ const API_OPTIONS = {
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
-
   const [errorMessage, setErrorMessage] = useState("");
+  const [movieList, setMovieList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchMovies = async () => {
+    setIsLoading(true);
+    setErrorMessage("");
+
     try {
       const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
 
@@ -33,10 +39,16 @@ const App = () => {
 
       if (data.response === "false") {
         setErrorMessage(data.error || "Failed to fetch movies");
+        setMovieList([]);
+        return;
       }
+
+      setMovieList(data.results || []);
     } catch (error) {
       console.log(`Error fetching movies: ${error}`);
       setErrorMessage("Error fetching movies. Try again in a minute.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -65,7 +77,17 @@ const App = () => {
 
         <section className="all-movies">
           <h2>All Movies</h2>
-          {errorMessage && <p className="text-red-600">{errorMessage}</p>}
+          {isLoading ? (
+            <Spinner />
+          ) : errorMessage ? (
+            <p className="text-red-600">{errorMessage}</p>
+          ) : (
+            <ul>
+              {movieList.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))}
+            </ul>
+          )}
         </section>
       </div>
     </main>
