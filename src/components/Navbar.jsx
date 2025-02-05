@@ -7,10 +7,10 @@ const Navbar = () => {
         <img src="./icons/logo.svg" alt="logo" width={50} />
       </a>
       <Button
-        href="www.imaginbright.com"
+        href="https://www.imaginbright.com/"
         className="rounded-full border border-black"
       >
-        Login
+        Portfolio
       </Button>
     </nav>
   );
